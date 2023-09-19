@@ -16,40 +16,38 @@ This project, named "User Management System" is a robust Spring Boot application
 
 The Controller layer is responsible for handling incoming HTTP requests and delegating them to the appropriate services. It defines API endpoints for the following operations:
 
-1. **Add User:** `POST /api/user`
-2. **Get All Users:** `GET /all/user`
-3. **Get User by ID:** `GET /api/user/{id}/detail`
-4. **Update User Id, Name, Number:** `PUT /user/api/user/{id}/number/`
-5. **Delete User by ID:** `DELETE /api/user/{id}/id`
+1. **Add Visitor:** `POST /Visitor`
+2. **Get Count:** `GET /total/Count
+3. **Get Count by visitorName:** `GET /api/v1/visitor-count-app/username/{userName}/count`
 
 ```java
+
 @RestController
-public class ApiCalling {
+public class UPIHitController {
     @Autowired
-    List<User> userList;
+    VisitorService visitorService;
 
-    //adduser
-    @PostMapping("api/user")
-    public String addUser(@RequestBody User user){
-        userList.add(user);
-        return "User added";
+    @PostMapping("Visitor")
+    public String addVisitor(@RequestBody Visitor visitor){
+        return visitorService.addVisitor(visitor);
     }
 
-    //getUser/userid
-    // User Doubt
-    @GetMapping("api/user/{id}/detail")
-    public User getUser(@PathVariable Integer id)
-    {
-        for(User user : userList){
-            if(user.getUserId().equals(id))
-            {
-             return user;
-            }
-        }
-        return null;
+    @GetMapping("visitors")
+    public List<Visitor> totalNumberOfVisitor(){
+        return visitorService.visitorList();
     }
-    //...
+
+    @GetMapping("total/Count")
+    public Integer getTotalCount(){
+        return visitorService.getCount();
+    }
+
+    @GetMapping("api/v1/visitor-count-app/username/{userName}/count")
+    public Integer totalEntrySingleUser(@PathVariable String userName){
+        return visitorService.totalCount(userName);
+    }
 }
+
 ```
 
 ## Database Design
@@ -58,8 +56,7 @@ The project's database design includes tables for user management, with fields s
 
 - `userId` (User ID)
 - `userName` (User Name)
-- `name` (name)
-- `userContactNo` (Phone Number)
+
 
 ### ArrayList
 
